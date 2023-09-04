@@ -54,9 +54,7 @@ func main() {
 				*ev.TopicPartition.Topic, string(ev.Key), string(ev.Value))
 
 			// send to ws
-
 			websocket.DoWriter("hello from kafka consumer!")
-
 			// end of send to ws
 
 			fmt.Println("👍 from kafka producer: " + msg)
@@ -65,52 +63,3 @@ func main() {
 
 	c.Close()
 }
-
-// func sendToWebSocket(msg string) {
-// 	client := &http.Client{}
-// 	req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/fromKafka", nil)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	q := req.URL.Query()
-// 	q.Add("msg", msg)
-
-// 	req.URL.RawQuery = q.Encode()
-
-// 	resp, err := client.Do(req)
-// 	if err != nil {
-// 		fmt.Println("Errored when sending request to the server")
-// 		return
-// 	}
-// 	defer resp.Body.Close()
-// }
-
-// func sendMessageToWebsocket(msg map[int]string) {
-// 	for i := 0; i < 10; i++ {
-// 		// at kafka service:
-// 		// - do get requests with msg[i] as the param OR query param
-// 		//
-// 		// at gin (ws) service:
-// 		// - parse param OR query param,
-// 		// - send messages
-
-// 		client := &http.Client{}
-// 		req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/fromKafka", nil)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-
-// 		q := req.URL.Query()
-// 		q.Add("msg", msg[i])
-
-// 		req.URL.RawQuery = q.Encode()
-
-// 		resp, err := client.Do(req)
-// 		if err != nil {
-// 			fmt.Println("Errored when sending request to the server")
-// 			return
-// 		}
-// 		defer resp.Body.Close()
-// 	}
-// }

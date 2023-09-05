@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gin-ws-kafka/websocket"
+	"gin-ws-kafka/myws"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,13 +14,11 @@ import (
 func main() {
 	conf := kafka.ConfigMap{
 		"bootstrap.servers": "localhost:9092",
+		"group.id":          "kafka-go-getting-started",
+		"auto.offset.reset": "earliest",
 	}
 
-	conf["group.id"] = "kafka-go-getting-started"
-	conf["auto.offset.reset"] = "earliest"
-
 	c, err := kafka.NewConsumer(&conf)
-
 	if err != nil {
 		fmt.Printf("Failed to create consumer: %s", err)
 		os.Exit(1)
@@ -54,10 +52,10 @@ func main() {
 				*ev.TopicPartition.Topic, string(ev.Key), string(ev.Value))
 
 			// send to ws
-			websocket.DoWriter("hello from kafka consumer!")
+			myws.DoWriter(myws.WS, "hello from kafka consumer!")
 			// end of send to ws
 
-			fmt.Println("👍 from kafka producer: " + msg)
+			fmt.Println("from kafka producer: " + msg)
 		}
 	}
 
